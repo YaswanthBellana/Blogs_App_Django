@@ -77,23 +77,13 @@ WSGI_APPLICATION = 'blog.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'blog_db',
+        'NAME': '', # database name
         'USER': 'root',
-        'PASSWORD': 'yaswanth',
+        'PASSWORD': '', # root password
         'HOST': 'localhost',
         'PORT': '3306',
     }
 }
-# DATABASES = {     # use this when docker is used
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': os.environ.get('DJANGO_DB_NAME', 'blog_db'),
-#         'USER': os.environ.get('DJANGO_DB_USER', 'root'),
-#         'PASSWORD': os.environ.get('DJANGO_DB_PASSWORD', 'yaswanth'),
-#         'HOST': os.environ.get('DJANGO_DB_HOST', 'db'),
-#         'PORT': os.environ.get('DJANGO_DB_PORT', '3306'),
-#     }
-# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
