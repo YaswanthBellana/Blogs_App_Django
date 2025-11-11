@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Execute Raw SQL</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            margin-bottom: 30px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.1);
+        }
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 10px;
+            font-family: monospace;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            resize: vertical;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .error {
+            color: red;
+            background-color: #ffe5e5;
+            padding: 10px;
+            border-radius: 6px;
+        }
+        .message {
+            color: green;
+            background-color: #eaffea;
+            padding: 10px;
+            border-radius: 6px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: #fff;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #333;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        ul {
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.1);
+            list-style-type: disc;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Execute Raw SQL Query</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <label for="query">SQL Query:</label><br>
+        <textarea name="query" id="query" placeholder="Enter SQL query...">
+            {{ query }}
+        </textarea><br>
+        <button type="submit">Run Query</button>
+    </form>
+
+    {% if error %}
+        <div class="error">{{ error }}</div>
+    {% endif %}
+
+    {% if result %}
+        {% if result.columns %}
+            <h2>Results ({{ result.count }} rows)</h2>
+            <table>
+                <tr>
+                    {% for col in result.columns %}
+                        <th>{{ col }}</th>
+                    {% endfor %}
+                </tr>
+                {% for row in result.rows %}
+                    <tr>
+                        {% for col in row %}
+                            <td>{{ col }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+        {% elif result.message %}
+            <div class="message">{{ result.message }}</div>
+        {% endif %}
+    {% endif %}
+
+    <h2>Database Tables</h2>
+    <ul>
+        {% for t in tables %}
+            <li>{{ t }}</li>
+        {% empty %}
+            <li>No tables found.</li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>
