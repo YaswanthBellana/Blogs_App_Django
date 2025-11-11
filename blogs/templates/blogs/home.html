@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Django Blog</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background-color: #f9f9f9;
+        color: #333;
+        line-height: 1.6;
+      }
+      .navbar {
+        background-color: #222;
+        color: white;
+        padding: 12px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .navbar a {
+        color: white;
+        text-decoration: none;
+        margin-left: 12px;
+      }
+      .navbar a:hover {
+        text-decoration: underline;
+      }
+      .container {
+        max-width: 1000px;
+        margin: 30px auto;
+        padding: 0 15px;
+      }
+      h1 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #222;
+      }
+      .posts {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+      }
+      .post-card {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+      .post-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      }
+      .post-card h2 {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+        color: #333;
+      }
+      .post-card p {
+        color: #555;
+        font-size: 0.95rem;
+      }
+      .post-footer {
+        margin-top: 15px;
+        font-size: 0.85rem;
+        color: #777;
+      }
+      .post-footer a {
+        font-size: 0.85rem;
+        text-decoration: none;
+        margin-right: 10px;
+        color: #0077cc;
+      }
+      .post-footer a:hover {
+        text-decoration: underline;
+      }
+      footer {
+        text-align: center;
+        margin-top: 40px;
+        padding: 15px;
+        color: #777;
+        border-top: 1px solid #ddd;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="navbar">
+      <div>
+        <a href="/">My Blog</a>
+      </div>
+      <div>
+        {% if user.is_authenticated %}
+          <span>Welcome, {{ user.username }}</span>
+          <a href="{% url 'create_post' %}">New Post</a>
+          <form id="logout-form" method="post" action="{% url 'logout' %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" style="margin-left:12px; font-size:16px; background:none; border:none; color:#ff5555; cursor:pointer;">Logout</button>
+          </form>
+        {% else %}
+          <a href="/admin/login/">Login</a>
+        {% endif %}
+      </div>
+    </div>
+    <div class="container">
+      <h1>All Posts</h1>
+      {% if posts %}
+        <div class="posts">
+          {% for post in posts %}
+            <div class="post-card">
+              <h2>{{ post.title }}</h2>
+              <p>{{ post.content|truncatechars:150 }}</p>
+              <div class="post-footer">
+                by {{ post.author.username }} on {{ post.created_at|date:"M d, Y" }}
+                {% if user.is_authenticated %}
+                {% if user == post.author or user.is_superuser %}
+                <br>
+                <a href="{% url 'edit_post' post.pk %}">Edit</a>
+                <a href="{% url 'delete_post' post.pk %}" style="color: #cc0000;">Delete</a>
+                {% endif %}
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p style="text-align:center; color:#777; margin-top:40px;">
+            No posts yet. Create your first one!
+        </p>
+      {% endif %}
+    </div>
+    <footer>
+      &copy; {{ now|date:"Y" }} My Django Blog. All rights reserved.
+    </footer>
+  </body>
+</html>
