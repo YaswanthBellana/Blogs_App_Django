@@ -37,12 +37,16 @@ This project demonstrates role-based access control, custom error handling, and 
 
 | Endpoint | Method | Description |
 |-----------|--------|-------------|
-| `/api/posts/` | GET | List all posts |
-| `/api/posts/<id>/` | GET | Retrieve single post |
-| `/api/posts/create/` | POST | Create a new post |
-| `/api/posts/<id>/update/` | PUT | Update a post |
-| `/api/posts/<id>/delete/` | DELETE | Delete a post |
-
+| `/` | GET | List all posts |
+| `/create/` | POST | Create a new post |
+| `/edit/<id>/` | POST | Edit a post |
+| `/delete/<id>/` | DELETE | Delete a post |
+| `/sql/` |  | Execute the sql queries |
+| `/register/` |  | Create a new non-admin login |
+| `/db-check/` |  | Checks if db is connected or not |
+| `/trigger-error/` |  | Sample view of 500 page |
+| `/non-found/` |  | 404 page view type any thing |
+| `/admin/login/` |  | Any user can login |
 ---
 
 ## 🧠 Role-Based Access Control Summary
@@ -77,9 +81,10 @@ DATABASES = {
 
 ### 3️⃣ Run migrations and create a superuser
 ```bash
-python manage.py makemigrations
-python manage.py migrate
-python manage.py createsuperuser
+python3 manage.py makemigrations
+python3 manage.py migrate
+python3 manage.py collectstatic
+python3 manage.py createsuperuser
 ```
 
 ### 4️⃣ Run the development server
