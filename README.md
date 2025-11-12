@@ -41,12 +41,12 @@ This project demonstrates role-based access control, custom error handling, and 
 | `/create/` | POST | Create a new post |
 | `/edit/<id>/` | POST | Edit a post |
 | `/delete/<id>/` | DELETE | Delete a post |
-| `/sql/` |  | Execute the sql queries |
-| `/register/` |  | Create a new non-admin login |
-| `/db-check/` |  | Checks if db is connected or not |
-| `/trigger-error/` |  | Sample view of 500 page |
-| `/non-found/` |  | 404 page view type any thing |
-| `/admin/login/` |  | Any user can login |
+| `/sql/` | POST | Execute the sql queries |
+| `/register/` | POST | Create a new non-admin login |
+| `/db-check/` | SIMPLE REQ | Checks if db is connected or not |
+| `/trigger-error/` | SIMPLE REQ | Sample view of 500 page |
+| `/non-found/` | SIMPLE REQ | 404 page view type any thing |
+| `/admin/login/` | POST | Any user can login |
 ---
 
 ## 🧠 Role-Based Access Control Summary
