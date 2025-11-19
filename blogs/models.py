@@ -34,6 +34,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.utils.text import slugify
+import logging
+
+logger = logging.getLogger(__name__)
 
 class Post(models.Model):
     title = models.CharField(max_length=200)
@@ -51,6 +54,7 @@ class Post(models.Model):
         ]
     def save(self, *args, **kwargs):
         if not self.slug:
+            logger.debug('Generating slug for title: %s', self.title)
             base_slug = slugify(self.title)
             slug = base_slug
             counter = 1
@@ -59,6 +63,7 @@ class Post(models.Model):
                 counter += 1
             self.slug = slug
         super().save(*args, **kwargs)
+        logger.info('Saved Post: %s (slug=%s)', self.title, self.slug)
 
     def __str__(self):
         return f'{self.title} - by {self.author.username}'

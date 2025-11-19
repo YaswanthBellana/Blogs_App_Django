@@ -2,6 +2,7 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+import logging
 
 
 def main():
@@ -19,4 +20,12 @@ def main():
 
 
 if __name__ == '__main__':
+    # Ensure logs directory exists so Django logging file handler can write logs
+    logs_dir = os.path.join(os.path.dirname(__file__), 'logs')
+    try:
+        os.makedirs(logs_dir, exist_ok=True)
+    except Exception:
+        # If directory creation fails, continue; logging may still work to console
+        pass
+    logging.getLogger(__name__).info('Starting manage.py')
     main()

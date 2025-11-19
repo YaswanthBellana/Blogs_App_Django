@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: blogapp:latest
+    ports:
+      - "8000:8000"
+    environment:
+      - MYSQL_DATABASE=blog_db
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=yaswanth
+      - MYSQL_HOST=host.docker.internal
+      - MYSQL_PORT=3306
+      - DJANGO_DEBUG=1
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - .:/code
+    restart: unless-stopped
+    networks:
+      - blog_network
+
+networks:
+  blog_network:
+    driver: bridge
+    driver_opts:
+      com.docker.network.enable_ipv4: "true"

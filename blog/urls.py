@@ -21,7 +21,6 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('db-check/', blog_views.db_connection_check),
-    path('trigger-error/', blog_views.trigger_error),
     path('admin/', admin.site.urls),
     path('', blog_views.home, name='home'),
     path('create/', blog_views.create_post, name='create_post'),
@@ -30,7 +29,6 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
     path('register/', blog_views.register, name='register'),
     path('sql/', blog_views.execute_raw_sql, name='execute_raw_sql'),
+    path('error/404/', blog_views.custom_404_view, name='custom_404'),
+    path('error/500/', blog_views.custom_500_view, name='custom_500'),
 ]
-
-handler404 = 'blogs.views.custom_404_view'
-# handler500 = 'blogs.views.trigger_error'

@@ -86,9 +86,7 @@
     <form method="post">
         {% csrf_token %}
         <label for="query">SQL Query:</label><br>
-        <textarea name="query" id="query" placeholder="Enter SQL query...">
-            {{ query }}
-        </textarea><br>
+        <textarea name="query" id="query" placeholder="Enter SQL query...">{{ query }}</textarea><br>
         <button type="submit">Run Query</button>
     </form>
 
